@@ -1,5 +1,5 @@
 
-`timescale 1 ps / 1 ps
+`timescale 1 ns / 1 ns
 
 module top;
 
@@ -7,6 +7,7 @@ module top;
 	reg  reset = 1'b0;
 	reg  evr_trigger = 1'b0;
 	wire tx_output;
+	wire pll_clock;
 	
 	PSC_Trigger trigger0 (
 		.clk(clk),
@@ -19,8 +20,8 @@ module top;
 	
 	initial fork
 		#10 reset = 1'b1;
-		#13080 evr_trigger = 1'b1;
-		#13100 evr_trigger = 1'b0;
+//		#13080 evr_trigger = 1'b1;
+//		#13100 evr_trigger = 1'b0;
 	join
 	
 	initial #100000 $stop;

@@ -2,6 +2,17 @@ db/
 incremental_db/
 output_files/
 simulation/
+greybox_tmp/
 *.rpt
 *.bak
 *.qws
+*.summary
+*.done
+*.fit
+*.jdi
+*.pin
+*.pof
+*.sld
+*.sof
+*.jic
+*.smsg
