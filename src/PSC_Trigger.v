@@ -4,55 +4,98 @@ module PSC_Trigger
 	input  wire clk,
 	input  wire reset,
 	input  wire evr_trigger,
-	output wire psc_output,
-	output wire tx_done,
-	output wire pll_clock
+	output wire psc_output
 );
 
-	parameter state_load_idle = 3'b001;
-	parameter state_load_trigger   = 3'b011;
-	parameter state_tx_wait   = 3'b110;
 	parameter WIDTH = 100;
+	parameter SOP   = 8'b001_11100;
+	parameter EOP   = 8'b101_11100;
+	parameter state_load_idle    = 3'b001;
+	parameter state_load_trigger = 3'b011;
+	parameter state_tx_wait      = 3'b110;
+
+	reg [2:0]  state = state_load_idle;
+	reg [2:0]  next_state;
+	reg [7:0]  tx_counter = 8'b0;
+
+//	reg [7:0]  trigger_packet_status;
+//	reg [7:0]  trigger_packet_address_1;
+//	reg [7:0]  trigger_packet_address_0;
+//	reg [31:0] trigger_packet_data;
+//	reg [7:0]  trigger_packet_crc;
+//
+//	reg [7:0]  idle_packet_status;
+//	reg [7:0]  idle_packet_address_1;
+//	reg [7:0]  idle_packet_address_0;
+//	reg [31:0] idle_packet_data;
+//	reg [7:0]  idle_packet_crc;
+
+//	wire [79:0] w_trigger_packet;
+//	wire [79:0] w_idle_packet;
+
+	reg [7:0] trigger_packet [0:9];
+	reg [7:0] idle_packet [0:9];
 	
-	reg  [2:0]  state = state_load_idle;
-	reg  [2:0]  next_state;
-	reg  [WIDTH - 1:0] trigger_packet = 100'hFF00FF00FF00FF00FF00FF00F;
-	reg  [WIDTH - 1:0] idle_packet    = 100'hC0C0C0C0C0C0C0C0C0C0C0C0C;
-	reg  [7:0]  tx_counter = 8'b0;
+	initial begin
+		trigger_packet[0] = SOP;
+		trigger_packet[1] = 8'h00;   // Status
+		trigger_packet[2] = 8'h70;   // Address 0
+		trigger_packet[3] = 8'h00;   // Address 1
+		trigger_packet[4] = 8'h0; // Data
+		trigger_packet[5] = 8'h0; // Data
+		trigger_packet[6] = 8'h0; // Data
+		trigger_packet[7] = 8'h0; // Data
+		trigger_packet[8] = 8'h0;    // CRC
+		trigger_packet[9] = EOP;
+		
+		idle_packet[0] = SOP;
+		idle_packet[1] = 8'h00;   // Status
+		idle_packet[2] = 8'h40;   // Address 0
+		idle_packet[3] = 8'h00;   // Address 1
+		idle_packet[4] = 8'h0; // Data
+		idle_packet[5] = 8'h0; // Data
+		idle_packet[6] = 8'h0; // Data
+		idle_packet[7] = 8'h0; // Data
+		idle_packet[8] = 8'h0;    // CRC
+		idle_packet[9] = EOP;
+	end
+	
+	//reg  [99:0] trigger_packet_enc = 100'hFF00FF00FF00FF00FF00FF00F;
+	//reg  [99:0] idle_packet_enc    = 100'hC0C0C0C0C0C0C0C0C0C0C0C0C;
 
-	reg  trigger_bit;
-	reg  idle_bit;
-	// wire tx_done;
-	wire pll_locked;
-
+	reg  [7:0] idle_byte;
+	reg  [7:0] trigger_byte;
+	wire [7:0] tx_byte;
+	wire [9:0] encoder_out;
+	reg [9:0] encoder_value;
 	wire trigger_signal;
 
-	// wire pll_clock;
-	altpll_50_10 pll_0 ( .inclk0(clk), .c0(pll_clock), .locked(pll_locked) );
+	wire clk_10;
+	wire clk_1;
+	wire tx_done;
+	
+	altpll_50_10 pll_0 (
+		.inclk0(clk),
+		.c0(clk_10),
+		.c1(clk_1)
+	);
 	
 	positive_edge_detector detector0 (
-		.clk(pll_clock), 
+		.clk(clk_1), 
 		.signal(evr_trigger),
 		.out(trigger_signal)
 	);
 
-	always @(posedge pll_clock or negedge reset) begin
-		if(~reset) begin
+	always @(posedge clk_1 or posedge reset) begin
+		if(reset) begin
 			state      <= state_load_idle;
 			tx_counter <= 8'd0;
 		end
 		else begin
-			tx_counter  <= (tx_counter == 8'd99) ? 8'd0 : tx_counter + 8'b1;
-			state       <= next_state;
-			idle_bit    <= idle_packet[WIDTH - tx_counter - 1];
-			trigger_bit <= trigger_packet[WIDTH - tx_counter - 1];
-			
-//			if (evr_trigger == 1'b0) begin
-//				trigger_signal <= 1'b1;
-//			end
-//			
-//			if (trigger_signal == 1'b1)
-//				trigger_signal <= 1'b0;
+			tx_counter   <= (tx_counter == 8'd10) ? 8'd0 : tx_counter + 8'd1;
+			state        <= next_state;
+			idle_byte    <= idle_packet[tx_counter];
+			trigger_byte <= trigger_packet[tx_counter];
 		end
 	end
 
@@ -82,8 +125,22 @@ module PSC_Trigger
 		endcase
 	end
 
-	assign psc_output = (state == state_load_trigger ? trigger_bit : idle_bit);
+	assign tx_byte = (state == state_load_trigger ? trigger_byte : idle_byte);
 	assign tx_done = (tx_counter == 8'd0) ? 1'b1 : 1'b0;
+	
+	crc8_encoder encoder0 (
+		.clk(clk_1),
+		.reset(reset),
+		.data_in(tx_byte),
+		.data_out(encoder_out)
+	);
+	
+	shift_register reg0 (
+		.clk(clk_10),
+		.load(tx_done),
+		.data_in(encoder_out),
+		.data_out(psc_output)
+	);
 
 endmodule
 
