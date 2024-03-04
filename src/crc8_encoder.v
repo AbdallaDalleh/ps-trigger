@@ -30,7 +30,7 @@ module crc8_encoder (
 		.dataout(data_out)
 	);
 	
-	assign KI = (counter == 4'hf || counter == 4'b1000 || counter == 4'b1001);
+	assign KI = (counter == 4'h0 || counter == 4'b1001);
 	// assign KI = 1'b1;
 
 endmodule

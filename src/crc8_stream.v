@@ -8,7 +8,6 @@ module crc8_stream #(parameter POLYNOMIAL=8'h07)
 	output wire [3:0] byte_counter
 );
 
-	reg [3:0] prev_counter;
 	wire crc_reset;
 	reg  [3:0] counter = 4'hf;
 	wire [7:0] crc_byte;
@@ -25,16 +24,14 @@ module crc8_stream #(parameter POLYNOMIAL=8'h07)
 		.crc_o(crc_byte)
 	);
 
-	assign is_crc_byte = (counter == 4'h7);
-	assign crc_reset   = (counter == 4'hf && prev_counter == 4'hf) || (counter == 4'h0 && prev_counter == 4'h9);
+	assign is_crc_byte = (counter == 4'h8);
+	assign crc_reset   = (counter == 4'h0);
 	always @(posedge clk or posedge reset) begin
 		if (reset) begin
-			counter <= 4'hf;
-			prev_counter <= 4'hf;
+			counter <= 4'h0;
 		end
 		else begin
 			counter <= counter + 4'b1;
-			prev_counter <= counter;
 			if (counter == 4'b1001)
 				counter <= 4'b0;
 		end
