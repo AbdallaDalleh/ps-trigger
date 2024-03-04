@@ -21,10 +21,11 @@ module top;
 	initial fork
 		#300 reset = 1'b1;
 		#1020 reset = 1'b0;
-//		#13080 evr_trigger = 1'b1;
-//		#13100 evr_trigger = 1'b0;
+		
+		#15000 evr_trigger = 1'b1;
+		#21000 evr_trigger = 1'b0;
 	join
 	
-	initial #20000 $stop;
+	initial #80000 $stop;
 
 endmodule

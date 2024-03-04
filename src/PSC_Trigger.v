@@ -67,19 +67,34 @@ module PSC_Trigger
 		.signal(evr_trigger),
 		.out(trigger_signal)
 	);
+	
+	crc8_encoder encoder0 (
+		.clk(clk_1),
+		.reset(reset),
+		.data_in(tx_byte),
+		.data_out(encoder_out)
+	);
+	
+	shift_register reg0 (
+		.clk(clk_10),
+		.load(tx_done),
+		.data_in(encoder_out),
+		.data_out(psc_output)
+	);
 
 	assign idle_byte    = idle_packet[tx_counter];
 	assign trigger_byte = trigger_packet[tx_counter];
+	assign tx_byte      = (state == state_load_trigger ? trigger_byte : idle_byte);
+	assign tx_done      = (tx_counter == 8'd9) ? 1'b1 : 1'b0;
+	
 	always @(posedge clk_1 or posedge reset) begin
 		if(reset) begin
 			state      <= state_load_idle;
 			tx_counter <= 8'd0;
-//			idle_byte    <= 8'b0;
-//			trigger_byte <= 8'b0;
 		end
 		else begin
-			tx_counter   <= (tx_counter == 8'd9) ? 8'd0 : tx_counter + 8'd1;
-			state        <= next_state;
+			tx_counter <= (tx_counter == 8'd9) ? 8'd0 : tx_counter + 8'd1;
+			state      <= next_state;
 		end
 	end
 
@@ -108,23 +123,6 @@ module PSC_Trigger
 			
 		endcase
 	end
-
-	assign tx_byte = (state == state_load_trigger ? trigger_byte : idle_byte);
-	assign tx_done = (tx_counter == 8'd0) ? 1'b1 : 1'b0;
-	
-	crc8_encoder encoder0 (
-		.clk(clk_1),
-		.reset(reset),
-		.data_in(tx_byte),
-		.data_out(encoder_out)
-	);
-	
-	shift_register reg0 (
-		.clk(clk_10),
-		.load(tx_done),
-		.data_in(encoder_out),
-		.data_out(psc_output)
-	);
 
 endmodule
 
