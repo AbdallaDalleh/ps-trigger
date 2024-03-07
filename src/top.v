@@ -19,8 +19,8 @@ module top;
 	always @(clk) #10 clk <= ~clk;
 	
 	initial fork
-		#300 reset = 1'b1;
-		#1020 reset = 1'b0;
+		#1020 reset = 1'b1;
+		#1500 reset = 1'b0;
 		
 		#15000 evr_trigger = 1'b1;
 		#21000 evr_trigger = 1'b0;

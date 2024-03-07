@@ -9,8 +9,6 @@ module data_rom (
 
 	parameter SOP = 8'b001_11100;
 	parameter EOP = 8'b101_11100;
-
-	reg [7:0] rom [0:9];
 	
 	always @(*) begin
 		case (address)
@@ -30,3 +28,29 @@ module data_rom (
 	end
 
 endmodule
+
+//	reg [7:0] trigger_packet [0:9];
+//	reg [7:0] idle_packet    [0:9];
+//	initial begin
+//		trigger_packet[0] = SOP;
+//		trigger_packet[1] = 8'h00; // Status
+//		trigger_packet[2] = 8'h70; // Address 0
+//		trigger_packet[3] = 8'h00; // Address 1
+//		trigger_packet[4] = 8'h0;  // Data
+//		trigger_packet[5] = 8'h0;  // Data
+//		trigger_packet[6] = 8'h0;  // Data
+//		trigger_packet[7] = 8'h0;  // Data
+//		trigger_packet[8] = 8'h0;  // CRC
+//		trigger_packet[9] = EOP;
+//
+//		idle_packet[0] = SOP;
+//		idle_packet[1] = 8'h00; // Status
+//		idle_packet[2] = 8'h40; // Address 0
+//		idle_packet[3] = 8'h00; // Address 1
+//		idle_packet[4] = 8'h0;  // Data
+//		idle_packet[5] = 8'h0;  // Data
+//		idle_packet[6] = 8'h0;  // Data
+//		idle_packet[7] = 8'h0;  // Data
+//		idle_packet[8] = 8'h0;  // CRC
+//		idle_packet[9] = EOP;
+//	end

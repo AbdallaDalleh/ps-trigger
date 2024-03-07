@@ -9,7 +9,7 @@ module crc8_stream #(parameter POLYNOMIAL=8'h07)
 );
 
 	wire crc_reset;
-	reg  [3:0] counter = 4'hf;
+	reg  [3:0] counter;
 	wire [7:0] crc_byte;
 	wire is_crc_byte;
 

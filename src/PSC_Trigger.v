@@ -16,38 +16,7 @@ module PSC_Trigger
 
 	reg [2:0] state = state_load_idle;
 	reg [2:0] next_state;
-	reg [7:0] tx_counter;
-
-	reg [7:0] trigger_packet [0:9];
-	reg [7:0] idle_packet    [0:9];
-	
-	wire [7:0] idle_byte;
-	wire [7:0] trigger_byte;
-	reg [9:0] encoder_value;
-	
-	initial begin
-		trigger_packet[0] = SOP;
-		trigger_packet[1] = 8'h00; // Status
-		trigger_packet[2] = 8'h70; // Address 0
-		trigger_packet[3] = 8'h00; // Address 1
-		trigger_packet[4] = 8'h0;  // Data
-		trigger_packet[5] = 8'h0;  // Data
-		trigger_packet[6] = 8'h0;  // Data
-		trigger_packet[7] = 8'h0;  // Data
-		trigger_packet[8] = 8'h0;  // CRC
-		trigger_packet[9] = EOP;
-
-		idle_packet[0] = SOP;
-		idle_packet[1] = 8'h00; // Status
-		idle_packet[2] = 8'h40; // Address 0
-		idle_packet[3] = 8'h00; // Address 1
-		idle_packet[4] = 8'h0;  // Data
-		idle_packet[5] = 8'h0;  // Data
-		idle_packet[6] = 8'h0;  // Data
-		idle_packet[7] = 8'h0;  // Data
-		idle_packet[8] = 8'h0;  // CRC
-		idle_packet[9] = EOP;
-	end
+	reg [3:0] tx_counter;
 
 	wire [7:0] tx_byte;
 	wire [9:0] encoder_out;
@@ -55,6 +24,8 @@ module PSC_Trigger
 	wire       clk_10;
 	wire       clk_1;
 	wire       tx_done;
+	wire       load_register;
+	wire       is_trigger;
 
 	altpll_50_10 pll_0 (
 		.inclk0(clk),
@@ -67,6 +38,12 @@ module PSC_Trigger
 		.signal(evr_trigger),
 		.out(trigger_signal)
 	);
+
+	positive_edge_detector detector1 (
+		.clk(clk),
+		.signal(clk_1),
+		.out(load_register)
+	);
 	
 	crc8_encoder encoder0 (
 		.clk(clk_1),
@@ -77,23 +54,33 @@ module PSC_Trigger
 	
 	shift_register reg0 (
 		.clk(clk_10),
-		.load(tx_done),
+		.load(load_register),
 		.data_in(encoder_out),
 		.data_out(psc_output)
 	);
 
-	assign idle_byte    = idle_packet[tx_counter];
-	assign trigger_byte = trigger_packet[tx_counter];
-	assign tx_byte      = (state == state_load_trigger ? trigger_byte : idle_byte);
-	assign tx_done      = (tx_counter == 8'd9) ? 1'b1 : 1'b0;
+	data_rom rom0 (
+		.address(tx_counter),
+		.is_trigger(is_trigger),
+		.data(tx_byte)
+	);
+
+	// wire [7:0] idle_byte;
+	// wire [7:0] trigger_byte;
+	// assign idle_byte    = idle_packet[tx_counter];
+	// assign trigger_byte = trigger_packet[tx_counter];
+	// assign tx_byte      = (state == state_load_trigger ? trigger_byte : idle_byte);
+	
+	assign is_trigger = (state == state_load_trigger);
+	assign tx_done    = (tx_counter == 4'd9) ? 1'b1 : 1'b0;
 	
 	always @(posedge clk_1 or posedge reset) begin
 		if(reset) begin
 			state      <= state_load_idle;
-			tx_counter <= 8'd0;
+			tx_counter <= 4'd0;
 		end
 		else begin
-			tx_counter <= (tx_counter == 8'd9) ? 8'd0 : tx_counter + 8'd1;
+			tx_counter <= (tx_counter == 4'd9) ? 4'd0 : tx_counter + 4'd1;
 			state      <= next_state;
 		end
 	end
@@ -105,13 +92,13 @@ module PSC_Trigger
 					next_state <= state_tx_wait;
 				else
 					next_state <= state_load_idle;
-					
+
 			state_tx_wait:
 				if(tx_done)
 					next_state <= state_load_trigger;
 				else
 					next_state <= state_tx_wait;
-			
+
 			state_load_trigger:
 				if(tx_done)
 					next_state <= state_load_idle;

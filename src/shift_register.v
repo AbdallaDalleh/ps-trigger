@@ -9,7 +9,7 @@ module shift_register (
 
 	reg [9:0] data;
 	
-	always @(posedge clk) begin
+	always @(posedge clk or posedge load) begin
 		if (load)
 			data <= data_in;
 		else
