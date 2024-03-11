@@ -15,6 +15,7 @@ module trigger_fsm (
 	
 	reg  [2:0] state = state_load_idle;
 	reg  [2:0] next_state;
+	wire       tx_done;  
 
 	assign is_trigger = (state == state_load_trigger);
 	assign tx_done    = (tx_counter == 4'd9) ? 1'b1 : 1'b0;
