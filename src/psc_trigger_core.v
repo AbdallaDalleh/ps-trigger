@@ -1,5 +1,5 @@
 
-module PSC_Trigger
+module psc_trigger
 (
 	input  wire clk,
 	input  wire reset,
@@ -22,13 +22,13 @@ module PSC_Trigger
 		.c1(clk_1)
 	);
 	
-	positive_edge_detector detector0 (
+	psc_trigger_rising_edge detector0 (
 		.clk(clk_1), 
 		.signal(evr_trigger),
 		.out(trigger_signal)
 	);
 
-	positive_edge_detector detector1 (
+	psc_trigger_rising_edge detector1 (
 		.clk(clk),
 		.signal(clk_1),
 		.out(load_register)
@@ -41,20 +41,20 @@ module PSC_Trigger
 		.data_out(encoder_out)
 	);
 	
-	shift_register reg0 (
+	psc_trigger_shift_register reg0 (
 		.clk(clk_10),
 		.load(load_register),
 		.data_in(encoder_out),
 		.data_out(psc_output)
 	);
 
-	data_rom rom0 (
+	psc_trigger_data_rom rom0 (
 		.address(tx_counter),
 		.is_trigger(is_trigger),
 		.data(tx_byte)
 	);
 	
-	trigger_fsm fsm0 (
+	psc_trigger_fsm fsm0 (
 		.clk(clk_1),
 		.reset(reset),
 		.trigger_pulse(trigger_signal),

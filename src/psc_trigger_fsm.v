@@ -1,5 +1,5 @@
 
-module trigger_fsm (
+module psc_trigger_fsm (
 
 	input  wire       clk,
 	input  wire       reset,

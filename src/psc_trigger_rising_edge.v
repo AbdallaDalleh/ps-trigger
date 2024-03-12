@@ -1,4 +1,4 @@
-module positive_edge_detector (
+module psc_trigger_rising_edge (
 	
 	input  clk,
 	input  signal,

@@ -3,7 +3,7 @@
 /*
  * A 256 byte long ROM to hold the CRC table
  */
-module crc_table #(
+module crc8_table #(
     parameter POLYNOMIAL=8'h07
 ) (
     input wire clk_i,

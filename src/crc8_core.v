@@ -10,7 +10,7 @@
  *          high.
  */
  
-module crc8 #(parameter POLYNOMIAL=8'h07, parameter INITIAL = 8'h00)
+module crc8_core #(parameter POLYNOMIAL=8'h07, parameter INITIAL = 8'h00)
 (
     input wire clk_i,
     input wire rst_i,
@@ -30,7 +30,7 @@ module crc8 #(parameter POLYNOMIAL=8'h07, parameter INITIAL = 8'h00)
 		else
 			data_valid_last_cycle <= data_valid_i;
 
-	crc_table #(
+	crc8_table #(
 		.POLYNOMIAL(POLYNOMIAL)
 	) crc_table (
 		.clk_i(clk_i),

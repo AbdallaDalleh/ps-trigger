@@ -1,5 +1,5 @@
 
-module shift_register (
+module psc_trigger_shift_register (
 
 	input  wire       clk,
 	input  wire       load,

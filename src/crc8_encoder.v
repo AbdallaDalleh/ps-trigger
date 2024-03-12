@@ -21,10 +21,11 @@ module crc8_encoder (
 		.byte_counter(counter)
 	);
 	
-	enc_8b10b encoder0 (
+	encoder_8b10b encoder0 (
+//	enc_8b10b encoder0 (
+//		.ena(1'b1),
 		.clk(clk),
 		.reset(reset),
-		.ena(1'b1),
 		.KI(KI),
 		.datain(crc_o),
 		.dataout(data_out)

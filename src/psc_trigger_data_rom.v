@@ -1,5 +1,5 @@
 
-module data_rom (
+module psc_trigger_data_rom (
 
 	input  wire [3:0] address,
 	input  wire       is_trigger,

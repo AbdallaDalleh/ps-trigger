@@ -13,7 +13,7 @@ module crc8_stream #(parameter POLYNOMIAL=8'h07)
 	wire [7:0] crc_byte;
 	wire is_crc_byte;
 
-	crc8 #(
+	crc8_core #(
 		.POLYNOMIAL(8'h07),
 		.INITIAL(8'hFF)
 	) crc8_0 (

@@ -9,7 +9,7 @@ module top;
 	wire tx_output;
 	wire pll_clock;
 	
-	PSC_Trigger trigger0 (
+	psc_trigger trigger0 (
 		.clk(clk),
 		.reset(reset),
 		.evr_trigger(evr_trigger),
