@@ -1,10 +1,10 @@
-// megafunction wizard: %ALTPLL%VBB%
+// megafunction wizard: %ALTPLL%
 // GENERATION: STANDARD
 // VERSION: WM1.0
 // MODULE: altpll 
 
 // ============================================================
-// File Name: altpll_50_10.v
+// File Name: altpll_50_1.v
 // Megafunction Name(s):
 // 			altpll
 //
@@ -16,6 +16,7 @@
 //
 // 22.1std.2 Build 922 07/20/2023 SC Lite Edition
 // ************************************************************
+
 
 //Copyright (C) 2023  Intel Corporation. All rights reserved.
 //Your use of Intel Corporation's design tools, logic functions 
@@ -32,12 +33,118 @@
 //refer to the applicable agreement for further details, at
 //https://fpgasoftware.intel.com/eula.
 
-module altpll_50_10 (
+
+// synopsys translate_off
+`timescale 1 ps / 1 ps
+// synopsys translate_on
+module altpll_50_1 (
 	inclk0,
 	c0);
 
 	input	  inclk0;
 	output	  c0;
+
+	wire [0:0] sub_wire2 = 1'h0;
+	wire [4:0] sub_wire3;
+	wire  sub_wire0 = inclk0;
+	wire [1:0] sub_wire1 = {sub_wire2, sub_wire0};
+	wire [0:0] sub_wire4 = sub_wire3[0:0];
+	wire  c0 = sub_wire4;
+
+	altpll	altpll_component (
+				.inclk (sub_wire1),
+				.clk (sub_wire3),
+				.activeclock (),
+				.areset (1'b0),
+				.clkbad (),
+				.clkena ({6{1'b1}}),
+				.clkloss (),
+				.clkswitch (1'b0),
+				.configupdate (1'b0),
+				.enable0 (),
+				.enable1 (),
+				.extclk (),
+				.extclkena ({4{1'b1}}),
+				.fbin (1'b1),
+				.fbmimicbidir (),
+				.fbout (),
+				.fref (),
+				.icdrclk (),
+				.locked (),
+				.pfdena (1'b1),
+				.phasecounterselect ({4{1'b1}}),
+				.phasedone (),
+				.phasestep (1'b1),
+				.phaseupdown (1'b1),
+				.pllena (1'b1),
+				.scanaclr (1'b0),
+				.scanclk (1'b0),
+				.scanclkena (1'b1),
+				.scandata (1'b0),
+				.scandataout (),
+				.scandone (),
+				.scanread (1'b0),
+				.scanwrite (1'b0),
+				.sclkout0 (),
+				.sclkout1 (),
+				.vcooverrange (),
+				.vcounderrange ());
+	defparam
+		altpll_component.bandwidth_type = "AUTO",
+		altpll_component.clk0_divide_by = 50,
+		altpll_component.clk0_duty_cycle = 50,
+		altpll_component.clk0_multiply_by = 1,
+		altpll_component.clk0_phase_shift = "0",
+		altpll_component.compensate_clock = "CLK0",
+		altpll_component.inclk0_input_frequency = 20000,
+		altpll_component.intended_device_family = "Cyclone IV E",
+		altpll_component.lpm_hint = "CBX_MODULE_PREFIX=altpll_50_1",
+		altpll_component.lpm_type = "altpll",
+		altpll_component.operation_mode = "NORMAL",
+		altpll_component.pll_type = "AUTO",
+		altpll_component.port_activeclock = "PORT_UNUSED",
+		altpll_component.port_areset = "PORT_UNUSED",
+		altpll_component.port_clkbad0 = "PORT_UNUSED",
+		altpll_component.port_clkbad1 = "PORT_UNUSED",
+		altpll_component.port_clkloss = "PORT_UNUSED",
+		altpll_component.port_clkswitch = "PORT_UNUSED",
+		altpll_component.port_configupdate = "PORT_UNUSED",
+		altpll_component.port_fbin = "PORT_UNUSED",
+		altpll_component.port_inclk0 = "PORT_USED",
+		altpll_component.port_inclk1 = "PORT_UNUSED",
+		altpll_component.port_locked = "PORT_UNUSED",
+		altpll_component.port_pfdena = "PORT_UNUSED",
+		altpll_component.port_phasecounterselect = "PORT_UNUSED",
+		altpll_component.port_phasedone = "PORT_UNUSED",
+		altpll_component.port_phasestep = "PORT_UNUSED",
+		altpll_component.port_phaseupdown = "PORT_UNUSED",
+		altpll_component.port_pllena = "PORT_UNUSED",
+		altpll_component.port_scanaclr = "PORT_UNUSED",
+		altpll_component.port_scanclk = "PORT_UNUSED",
+		altpll_component.port_scanclkena = "PORT_UNUSED",
+		altpll_component.port_scandata = "PORT_UNUSED",
+		altpll_component.port_scandataout = "PORT_UNUSED",
+		altpll_component.port_scandone = "PORT_UNUSED",
+		altpll_component.port_scanread = "PORT_UNUSED",
+		altpll_component.port_scanwrite = "PORT_UNUSED",
+		altpll_component.port_clk0 = "PORT_USED",
+		altpll_component.port_clk1 = "PORT_UNUSED",
+		altpll_component.port_clk2 = "PORT_UNUSED",
+		altpll_component.port_clk3 = "PORT_UNUSED",
+		altpll_component.port_clk4 = "PORT_UNUSED",
+		altpll_component.port_clk5 = "PORT_UNUSED",
+		altpll_component.port_clkena0 = "PORT_UNUSED",
+		altpll_component.port_clkena1 = "PORT_UNUSED",
+		altpll_component.port_clkena2 = "PORT_UNUSED",
+		altpll_component.port_clkena3 = "PORT_UNUSED",
+		altpll_component.port_clkena4 = "PORT_UNUSED",
+		altpll_component.port_clkena5 = "PORT_UNUSED",
+		altpll_component.port_extclk0 = "PORT_UNUSED",
+		altpll_component.port_extclk1 = "PORT_UNUSED",
+		altpll_component.port_extclk2 = "PORT_UNUSED",
+		altpll_component.port_extclk3 = "PORT_UNUSED",
+		altpll_component.width_clock = 5;
+
 
 endmodule
 
@@ -60,9 +167,9 @@ endmodule
 // Retrieval info: PRIVATE: CUR_DEDICATED_CLK STRING "c0"
 // Retrieval info: PRIVATE: CUR_FBIN_CLK STRING "c0"
 // Retrieval info: PRIVATE: DEVICE_SPEED_GRADE STRING "Any"
-// Retrieval info: PRIVATE: DIV_FACTOR0 NUMERIC "5"
+// Retrieval info: PRIVATE: DIV_FACTOR0 NUMERIC "50"
 // Retrieval info: PRIVATE: DUTY_CYCLE0 STRING "50.00000000"
-// Retrieval info: PRIVATE: EFF_OUTPUT_FREQ_VALUE0 STRING "10.000000"
+// Retrieval info: PRIVATE: EFF_OUTPUT_FREQ_VALUE0 STRING "1.000000"
 // Retrieval info: PRIVATE: EXPLICIT_SWITCHOVER_COUNTER STRING "0"
 // Retrieval info: PRIVATE: EXT_FEEDBACK_RADIO STRING "0"
 // Retrieval info: PRIVATE: GLOCKED_COUNTER_EDIT_CHANGED STRING "1"
@@ -105,10 +212,10 @@ endmodule
 // Retrieval info: PRIVATE: PLL_PFDENA_CHECK STRING "0"
 // Retrieval info: PRIVATE: PLL_TARGET_HARCOPY_CHECK NUMERIC "0"
 // Retrieval info: PRIVATE: PRIMARY_CLK_COMBO STRING "inclk0"
-// Retrieval info: PRIVATE: RECONFIG_FILE STRING "altpll_50_10.mif"
+// Retrieval info: PRIVATE: RECONFIG_FILE STRING "altpll_50_1.mif"
 // Retrieval info: PRIVATE: SACN_INPUTS_CHECK STRING "0"
 // Retrieval info: PRIVATE: SCAN_FEATURE_ENABLED STRING "1"
-// Retrieval info: PRIVATE: SELF_RESET_LOCK_LOSS STRING "1"
+// Retrieval info: PRIVATE: SELF_RESET_LOCK_LOSS STRING "0"
 // Retrieval info: PRIVATE: SHORT_SCAN_RADIO STRING "0"
 // Retrieval info: PRIVATE: SPREAD_FEATURE_ENABLED STRING "0"
 // Retrieval info: PRIVATE: SPREAD_FREQ STRING "50.000"
@@ -126,7 +233,7 @@ endmodule
 // Retrieval info: PRIVATE: ZERO_DELAY_RADIO STRING "0"
 // Retrieval info: LIBRARY: altera_mf altera_mf.altera_mf_components.all
 // Retrieval info: CONSTANT: BANDWIDTH_TYPE STRING "AUTO"
-// Retrieval info: CONSTANT: CLK0_DIVIDE_BY NUMERIC "5"
+// Retrieval info: CONSTANT: CLK0_DIVIDE_BY NUMERIC "50"
 // Retrieval info: CONSTANT: CLK0_DUTY_CYCLE NUMERIC "50"
 // Retrieval info: CONSTANT: CLK0_MULTIPLY_BY NUMERIC "1"
 // Retrieval info: CONSTANT: CLK0_PHASE_SHIFT STRING "0"
@@ -184,12 +291,12 @@ endmodule
 // Retrieval info: CONNECT: @inclk 0 0 1 1 GND 0 0 0 0
 // Retrieval info: CONNECT: @inclk 0 0 1 0 inclk0 0 0 0 0
 // Retrieval info: CONNECT: c0 0 0 0 0 @clk 0 0 1 0
-// Retrieval info: GEN_FILE: TYPE_NORMAL altpll_50_10.v TRUE
-// Retrieval info: GEN_FILE: TYPE_NORMAL altpll_50_10.ppf TRUE
-// Retrieval info: GEN_FILE: TYPE_NORMAL altpll_50_10.inc FALSE
-// Retrieval info: GEN_FILE: TYPE_NORMAL altpll_50_10.cmp TRUE
-// Retrieval info: GEN_FILE: TYPE_NORMAL altpll_50_10.bsf TRUE
-// Retrieval info: GEN_FILE: TYPE_NORMAL altpll_50_10_inst.v TRUE
-// Retrieval info: GEN_FILE: TYPE_NORMAL altpll_50_10_bb.v TRUE
+// Retrieval info: GEN_FILE: TYPE_NORMAL altpll_50_1.v TRUE
+// Retrieval info: GEN_FILE: TYPE_NORMAL altpll_50_1.ppf TRUE
+// Retrieval info: GEN_FILE: TYPE_NORMAL altpll_50_1.inc FALSE
+// Retrieval info: GEN_FILE: TYPE_NORMAL altpll_50_1.cmp TRUE
+// Retrieval info: GEN_FILE: TYPE_NORMAL altpll_50_1.bsf TRUE
+// Retrieval info: GEN_FILE: TYPE_NORMAL altpll_50_1_inst.v TRUE
+// Retrieval info: GEN_FILE: TYPE_NORMAL altpll_50_1_bb.v TRUE
 // Retrieval info: LIB_FILE: altera_mf
 // Retrieval info: CBX_MODULE_PREFIX: ON

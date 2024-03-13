@@ -14,7 +14,7 @@
 --https://fpgasoftware.intel.com/eula.
 
 
-component altpll_50_10
+component altpll_50_1
 	PORT
 	(
 		inclk0		: IN STD_LOGIC  := '0';

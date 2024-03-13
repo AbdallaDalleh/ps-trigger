@@ -22,7 +22,7 @@ https://fpgasoftware.intel.com/eula.
 (header "symbol" (version "1.2"))
 (symbol
 	(rect 0 0 240 152)
-	(text "altpll_50_10" (rect 86 0 167 16)(font "Arial" (font_size 10)))
+	(text "altpll_50_1" (rect 89 0 162 16)(font "Arial" (font_size 10)))
 	(text "inst" (rect 8 136 25 148)(font "Arial" ))
 	(port
 		(pt 0 64)
@@ -46,7 +46,7 @@ https://fpgasoftware.intel.com/eula.
 		(text "Ph (dg)" (rect 98 93 225 197)(font "Arial" ))
 		(text "DC (%)" (rect 132 93 294 197)(font "Arial" ))
 		(text "c0" (rect 54 107 116 225)(font "Arial" ))
-		(text "1/5" (rect 77 107 165 225)(font "Arial" ))
+		(text "1/50" (rect 74 107 164 225)(font "Arial" ))
 		(text "0.00" (rect 104 107 224 225)(font "Arial" ))
 		(text "50.00" (rect 136 107 293 225)(font "Arial" ))
 		(line (pt 0 0)(pt 241 0))
