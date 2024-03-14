@@ -18,15 +18,15 @@
 # -------------------------------------------------------------------------- #
 #
 # Quartus Prime
-# Version 23.1std.0 Build 991 11/28/2023 SC Lite Edition
-# Date created = 16:15:00  February 11, 2024
+# Version 22.1std.2 Build 922 07/20/2023 SC Lite Edition
+# Date created = 13:40:57  March 13, 2024
 #
 # -------------------------------------------------------------------------- #
 #
 # Notes:
 #
 # 1) The default values for assignments are stored in the file:
-#		PSC_Trigger_assignment_defaults.qdf
+#		psc_trigger_assignment_defaults.qdf
 #    If this file doesn't exist, see file:
 #		assignment_defaults.qdf
 #
@@ -37,54 +37,15 @@
 # -------------------------------------------------------------------------- #
 
 
-set_global_assignment -name FAMILY "Cyclone IV E"
-set_global_assignment -name DEVICE EP4CE22F17C6
-set_global_assignment -name TOP_LEVEL_ENTITY psc_trigger
+
+# Project-Wide Assignments
+# ========================
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 23.1STD.0
 set_global_assignment -name PROJECT_CREATION_TIME_DATE "16:15:00  FEBRUARY 11, 2024"
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
 set_global_assignment -name LAST_QUARTUS_VERSION "22.1std.2 Lite Edition"
-set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
-set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
-set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
-set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
-set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
-set_location_assignment PIN_R8 -to clk
-set_location_assignment PIN_E1 -to reset
-set_location_assignment PIN_A4 -to evr_trigger
-set_location_assignment PIN_D3 -to psc_output
-set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
-set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
-set_global_assignment -name ENABLE_OCT_DONE OFF
-set_global_assignment -name USE_CONFIGURATION_DEVICE ON
-set_global_assignment -name CYCLONEIII_CONFIGURATION_DEVICE EPCS64
-set_global_assignment -name CRC_ERROR_OPEN_DRAIN OFF
-set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -rise
-set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -fall
-set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -rise
-set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -fall
 set_global_assignment -name NUM_PARALLEL_PROCESSORS 4
-set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to evr_trigger
-set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to clk
-set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to psc_output
-set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to reset
-set_instance_assignment -name IO_STANDARD "2.5 V" -to psc_output
-set_instance_assignment -name IO_STANDARD "2.5 V" -to evr_trigger
-set_instance_assignment -name IO_STANDARD "2.5 V" -to clk
-set_instance_assignment -name IO_STANDARD "2.5 V" -to reset
-set_global_assignment -name EDA_SIMULATION_TOOL "QuestaSim (Verilog)"
-set_global_assignment -name EDA_TIME_SCALE "1 ps" -section_id eda_simulation
-set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "VERILOG HDL" -section_id eda_simulation
-set_global_assignment -name EDA_TEST_BENCH_ENABLE_STATUS COMMAND_MACRO_MODE -section_id eda_simulation
-set_global_assignment -name EDA_SIMULATION_RUN_SCRIPT scripts/testbench.tcl -section_id eda_simulation
-set_global_assignment -name EDA_TEST_BENCH_NAME top -section_id eda_simulation
-set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id top
-set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME top -section_id top
-set_global_assignment -name EDA_TEST_BENCH_FILE src/top.v -section_id top
-set_global_assignment -name EDA_USER_COMPILED_SIMULATION_LIBRARY_DIRECTORY "D:/FPGA/PSC_Trigger/simulation" -section_id eda_simulation
-set_global_assignment -name EDA_NETLIST_WRITER_OUTPUT_DIR simulation/ -section_id eda_simulation
 set_global_assignment -name FLOW_ENABLE_RTL_VIEWER ON
-set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
 set_global_assignment -name VHDL_FILE src/enc_8b10b.vhd
 set_global_assignment -name VERILOG_FILE src/encoder_8b10b_rom.v
 set_global_assignment -name VERILOG_FILE src/encoder_8b10b_fsm.v
@@ -101,5 +62,151 @@ set_global_assignment -name VERILOG_FILE src/psc_trigger_data_rom.v
 set_global_assignment -name VERILOG_FILE src/top.v
 set_global_assignment -name QIP_FILE ip/altpll_50_10.qip
 set_global_assignment -name TCL_SCRIPT_FILE scripts/testbench.tcl
+set_global_assignment -name VERILOG_FILE src/crc8_lookup_table.v
+set_global_assignment -name QIP_FILE ip/altpll_50_1.qip
+set_global_assignment -name VERILOG_FILE src/psc_trigger_clock_divider.v
 
+# Pin & Location Assignments
+# ==========================
+set_location_assignment PIN_R8 -to clk
+set_location_assignment PIN_E1 -to reset
+set_location_assignment PIN_A4 -to evr_trigger
+set_location_assignment PIN_D3 -to psc_output
+
+# Classic Timing Assignments
+# ==========================
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
+set_global_assignment -name TIMING_ANALYZER_MULTICORNER_ANALYSIS ON
+
+# Analysis & Synthesis Assignments
+# ================================
+set_global_assignment -name FAMILY "Cyclone IV E"
+set_global_assignment -name TOP_LEVEL_ENTITY psc_trigger
+
+# Fitter Assignments
+# ==================
+set_global_assignment -name DEVICE EP4CE22F17C6
+set_global_assignment -name CRC_ERROR_OPEN_DRAIN OFF
+
+# EDA Netlist Writer Assignments
+# ==============================
+set_global_assignment -name EDA_SIMULATION_TOOL "Questa Intel FPGA (Verilog)"
+
+# Assembler Assignments
+# =====================
+set_global_assignment -name ENABLE_OCT_DONE OFF
+set_global_assignment -name USE_CONFIGURATION_DEVICE ON
+set_global_assignment -name CYCLONEIII_CONFIGURATION_DEVICE EPCS64
+
+# Power Estimation Assignments
+# ============================
+set_global_assignment -name POWER_PRESET_COOLING_SOLUTION "23 MM HEAT SINK WITH 200 LFPM AIRFLOW"
+set_global_assignment -name POWER_BOARD_THERMAL_MODEL "NONE (CONSERVATIVE)"
+
+# Advanced I/O Timing Assignments
+# ===============================
+set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -rise
+set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -fall
+set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -rise
+set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -fall
+
+# start EDA_TEST_BENCH_SETTINGS(top)
+# ----------------------------------
+
+	# EDA Netlist Writer Assignments
+	# ==============================
+	set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id top
+	set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME top -section_id top
+	set_global_assignment -name EDA_TEST_BENCH_FILE src/top.v -section_id top
+
+# end EDA_TEST_BENCH_SETTINGS(top)
+# --------------------------------
+
+# start EDA_TOOL_SETTINGS(eda_simulation)
+# ---------------------------------------
+
+	# EDA Netlist Writer Assignments
+	# ==============================
+	set_global_assignment -name EDA_TIME_SCALE "1 ps" -section_id eda_simulation
+	set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "VERILOG HDL" -section_id eda_simulation
+set_global_assignment -name EDA_TEST_BENCH_ENABLE_STATUS COMMAND_MACRO_MODE -section_id eda_simulation
+	set_global_assignment -name EDA_SIMULATION_RUN_SCRIPT scripts/testbench.tcl -section_id eda_simulation
+	set_global_assignment -name EDA_TEST_BENCH_NAME top -section_id eda_simulation
+	set_global_assignment -name EDA_USER_COMPILED_SIMULATION_LIBRARY_DIRECTORY "D:/FPGA/PSC_Trigger/simulation" -section_id eda_simulation
+set_global_assignment -name EDA_NETLIST_WRITER_OUTPUT_DIR simulation/ -section_id eda_simulation
+	set_global_assignment -name EDA_EXTRA_ELAB_OPTION +define+SIM -section_id eda_simulation
+
+# end EDA_TOOL_SETTINGS(eda_simulation)
+# -------------------------------------
+
+# start EDA_TOOL_SETTINGS(eda_board_design_boundary_scan)
+# -------------------------------------------------------
+
+	# EDA Netlist Writer Assignments
+	# ==============================
+	set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST OFF -section_id eda_board_design_boundary_scan
+
+# end EDA_TOOL_SETTINGS(eda_board_design_boundary_scan)
+# -----------------------------------------------------
+
+# start EDA_TOOL_SETTINGS(eda_board_design_timing)
+# ------------------------------------------------
+
+	# EDA Netlist Writer Assignments
+	# ==============================
+	set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST OFF -section_id eda_board_design_timing
+
+# end EDA_TOOL_SETTINGS(eda_board_design_timing)
+# ----------------------------------------------
+
+# start EDA_TOOL_SETTINGS(eda_board_design_symbol)
+# ------------------------------------------------
+
+	# EDA Netlist Writer Assignments
+	# ==============================
+	set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST OFF -section_id eda_board_design_symbol
+
+# end EDA_TOOL_SETTINGS(eda_board_design_symbol)
+# ----------------------------------------------
+
+# start EDA_TOOL_SETTINGS(eda_board_design_signal_integrity)
+# ----------------------------------------------------------
+
+	# EDA Netlist Writer Assignments
+	# ==============================
+	set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST OFF -section_id eda_board_design_signal_integrity
+
+# end EDA_TOOL_SETTINGS(eda_board_design_signal_integrity)
+# --------------------------------------------------------
+
+# -------------------------
+# start ENTITY(psc_trigger)
+
+	# Fitter Assignments
+	# ==================
+	set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to evr_trigger
+	set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to clk
+	set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to psc_output
+	set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to reset
+	set_instance_assignment -name IO_STANDARD "2.5 V" -to psc_output
+	set_instance_assignment -name IO_STANDARD "2.5 V" -to evr_trigger
+	set_instance_assignment -name IO_STANDARD "2.5 V" -to clk
+	set_instance_assignment -name IO_STANDARD "2.5 V" -to reset
+
+	# start DESIGN_PARTITION(Top)
+	# ---------------------------
+
+		# Incremental Compilation Assignments
+		# ===================================
+		set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+		set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+		set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+
+	# end DESIGN_PARTITION(Top)
+	# -------------------------
+
+# end ENTITY(psc_trigger)
+# -----------------------
+set_global_assignment -name EDA_GENERATE_RTL_SIMULATION_COMMAND_SCRIPT ON -section_id eda_simulation
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top

@@ -1,4 +1,18 @@
-vlog -vlog01compat -work work +incdir+D:/FPGA/PSC_Trigger {D:/FPGA/PSC_Trigger/src/top.v}
+vlog -vlog01compat \
+	 -work work \
+	 +incdir+D:/FPGA/PSC_Trigger/src \
+	 {D:/FPGA/PSC_Trigger/src/psc_trigger_clock_divider.v}
+
+vlog -vlog01compat \
+	 -work work \
+	 +define+__SIM__ \
+	 +incdir+D:/FPGA/PSC_Trigger/src \
+	 {D:/FPGA/PSC_Trigger/src/psc_trigger_core.v}
+
+vlog -vlog01compat \
+	 -work work \
+	 +incdir+D:/FPGA/PSC_Trigger \
+	 {D:/FPGA/PSC_Trigger/src/top.v} \
 
 vsim -t 1ns \
 	 -L altera_ver \
@@ -23,6 +37,9 @@ add wave trigger0.trigger_signal
 add wave trigger0.encoder0.crc_stream0.crc_o
 add wave trigger0.encoder_out
 add wave trigger0.reg0.data
+add wave trigger0.encoder0.encoder0.data.data_in
+add wave trigger0.encoder0.encoder0.data.current_rd
+add wave trigger0.encoder0.encoder0.data.KI
 add wave tx_output
 # add wave trigger0.reg0.data_in
 # add wave clk

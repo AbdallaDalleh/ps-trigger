@@ -16,10 +16,10 @@ module top;
 		.psc_output(tx_output)
 	);
 	
-	always @(clk) #10 clk <= ~clk;
+	always @(clk) #5 clk <= ~clk;
 	
 	initial fork
-		#1020 reset = 1'b1;
+		#1000 reset = 1'b1;
 		#1500 reset = 1'b0;
 		
 		#15000 evr_trigger = 1'b1;

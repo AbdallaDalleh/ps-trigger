@@ -15,12 +15,30 @@ module psc_trigger
 	wire       clk_1;
 	wire       load_register;
 	wire       is_trigger;
-
-	altpll_50_10 pll_0 (
-		.inclk0(clk),
-		.c0(clk_10),
-		.c1(clk_1)
+	
+	`ifdef __SIM__
+	
+	psc_trigger_clock_divider #(.FACTOR(1)) div_2 (
+		.clk_in(clk),
+		.clk_out(clk_50)
 	);
+	psc_trigger_clock_divider #(.FACTOR(5)) div_10 (
+		.clk_in(clk),
+		.clk_out(clk_10)
+	);
+	psc_trigger_clock_divider #(.FACTOR(50)) div_100 (
+		.clk_in(clk),
+		.clk_out(clk_1)
+	);
+	
+	`else
+
+	wire clk_50;
+	assign clk_50 = clk;
+	altpll_50_10 pll_0 (.inclk0(clk), .c0(clk_10) );
+	altpll_50_1  pll_1 (.inclk0(clk), .c0(clk_1) );
+
+	`endif
 	
 	psc_trigger_rising_edge detector0 (
 		.clk(clk_1), 
@@ -29,7 +47,7 @@ module psc_trigger
 	);
 
 	psc_trigger_rising_edge detector1 (
-		.clk(clk),
+		.clk(clk_50),
 		.signal(clk_1),
 		.out(load_register)
 	);
