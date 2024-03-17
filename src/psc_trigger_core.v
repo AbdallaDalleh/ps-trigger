@@ -4,7 +4,8 @@ module psc_trigger
 	input  wire clk,
 	input  wire reset,
 	input  wire evr_trigger,
-	output wire psc_output
+	output wire psc_output,
+	output wire clk_10_logic
 );
 
 	wire [3:0] tx_counter;
@@ -39,6 +40,12 @@ module psc_trigger
 	altpll_50_1  pll_1 (.inclk0(clk), .c0(clk_1) );
 
 	`endif
+	
+	psc_logic_clock clock_logic (
+		.clk_in(clk_10),
+		.reset(reset),
+		.clk_out(clk_10_logic)
+	);
 	
 	psc_trigger_rising_edge detector0 (
 		.clk(clk_1), 

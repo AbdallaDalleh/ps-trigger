@@ -30,6 +30,7 @@ add wave trigger0.clk_10
 add wave trigger0.clk_1
 add wave trigger0.load_register
 add wave reset
+add wave trigger0.clk_10_logic
 add wave evr_trigger
 add wave trigger0.rom0.data
 add wave trigger0.trigger_signal
