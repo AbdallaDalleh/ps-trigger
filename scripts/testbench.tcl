@@ -1,19 +1,19 @@
 vlog -vlog01compat \
 	 -work work \
-	 +incdir+D:/FPGA/PSC_Trigger/src \
-	 {D:/FPGA/PSC_Trigger/src/psc_trigger_clock_divider.v}
+	 +incdir+C:/psc-trigger/src \
+	 {C:/psc-trigger/src/psc_trigger_clock_divider.v}
 
 vlog -vlog01compat \
 	 -work work \
 	 +define+__SIM__ \
-	 +incdir+D:/FPGA/PSC_Trigger/src \
-	 {D:/FPGA/PSC_Trigger/src/psc_trigger_core.v}
+	 +incdir+C:/psc-trigger/src \
+	 {C:/psc-trigger/src/psc_trigger_core.v}
 
 vlog -vlog01compat \
 	 -work work \
-	 +incdir+D:/FPGA/PSC_Trigger \
+	 +incdir+C:/psc-trigger \
 	 +define+__SIM__ \
-	 {D:/FPGA/PSC_Trigger/src/top.v} \
+	 {C:/psc-trigger/src/top.v} \
 
 vsim -t 1ns \
 	 -L altera_ver \
