@@ -26,8 +26,8 @@ module crc8_stream #(parameter POLYNOMIAL=8'h07)
 
 	assign is_crc_byte = (counter == 4'h8);
 	assign crc_reset   = (counter == 4'h0);
-	always @(posedge clk or posedge reset) begin
-		if (reset) begin
+	always @(posedge clk or negedge reset) begin
+		if (~reset) begin
 			counter <= 4'h0;
 		end
 		else begin

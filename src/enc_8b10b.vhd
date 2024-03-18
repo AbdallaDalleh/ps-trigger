@@ -98,7 +98,7 @@ begin
 
     disp_proc: process(clk, reset)
     begin
-        if reset = '1' then
+        if reset = '0' then
             dispin <= '0';
             dataout <= "0000000000";
         elsif rising_edge(clk) then

@@ -12,6 +12,7 @@ vlog -vlog01compat \
 vlog -vlog01compat \
 	 -work work \
 	 +incdir+D:/FPGA/PSC_Trigger \
+	 +define+__SIM__ \
 	 {D:/FPGA/PSC_Trigger/src/top.v} \
 
 vsim -t 1ns \
@@ -30,6 +31,7 @@ add wave trigger0.clk_10
 add wave trigger0.clk_1
 add wave trigger0.load_register
 add wave reset
+add wave trigger0.reset_signal
 add wave trigger0.clk_10_logic
 add wave evr_trigger
 add wave trigger0.rom0.data
@@ -38,9 +40,7 @@ add wave trigger0.trigger_signal
 add wave trigger0.encoder0.crc_stream0.crc_o
 add wave trigger0.encoder_out
 add wave trigger0.reg0.data
-add wave trigger0.encoder0.encoder0.data.data_in
-add wave trigger0.encoder0.encoder0.data.current_rd
-add wave trigger0.encoder0.encoder0.data.KI
+add wave trigger0.encoder0.encoder0.datain
 add wave tx_output
 # add wave trigger0.reg0.data_in
 # add wave clk

@@ -20,8 +20,8 @@ module psc_trigger_fsm (
 	assign is_trigger = (state == state_load_trigger);
 	assign tx_done    = (tx_counter == 4'd9) ? 1'b1 : 1'b0;
 
-	always @(posedge clk or posedge reset) begin
-		if(reset) begin
+	always @(posedge clk or negedge reset) begin
+		if(~reset) begin
 			state      <= state_load_idle;
 			tx_counter <= 4'd0;
 		end

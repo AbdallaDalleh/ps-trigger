@@ -5,7 +5,8 @@ module psc_trigger
 	input  wire reset,
 	input  wire evr_trigger,
 	output wire psc_output,
-	output wire clk_10_logic
+	output wire clk_10_logic,
+	output wire load_register
 );
 
 	wire [3:0] tx_counter;
@@ -14,10 +15,10 @@ module psc_trigger
 	wire       trigger_signal;
 	wire       clk_10;
 	wire       clk_1;
-	wire       load_register;
+	// wire       load_register;
 	wire       is_trigger;
 	
-	`ifdef __SIM__
+	`ifdef X
 	
 	psc_trigger_clock_divider #(.FACTOR(1)) div_2 (
 		.clk_in(clk),
@@ -41,12 +42,19 @@ module psc_trigger
 
 	`endif
 	
+	wire reset_signal;
 	psc_logic_clock clock_logic (
 		.clk_in(clk_10),
-		.reset(reset),
+		.reset(reset_signal),
 		.clk_out(clk_10_logic)
 	);
-	
+
+	psc_trigger_rising_edge detector_neg (
+		.clk(clk_10),
+		.signal(reset),
+		.out(reset_signal)
+	);
+
 	psc_trigger_rising_edge detector0 (
 		.clk(clk_1), 
 		.signal(evr_trigger),

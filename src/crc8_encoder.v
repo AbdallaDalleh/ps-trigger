@@ -20,10 +20,9 @@ module crc8_encoder (
 		.crc_o(crc_o),
 		.byte_counter(counter)
 	);
-	
-	encoder_8b10b encoder0 (
-//	enc_8b10b encoder0 (
-//		.ena(1'b1),
+
+	enc_8b10b encoder0 (
+		.ena(1'b1),
 		.clk(clk),
 		.reset(reset),
 		.KI(KI),
@@ -32,6 +31,5 @@ module crc8_encoder (
 	);
 	
 	assign KI = (counter == 4'h0 || counter == 4'b1001);
-	// assign KI = 1'b1;
 
 endmodule
