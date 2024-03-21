@@ -37,8 +37,8 @@ module psc_trigger
 
 	wire clk_50;
 	assign clk_50 = clk;
-	altpll_50_10 pll_0 (.inclk0(clk), .c0(clk_10) );
-	altpll_50_1  pll_1 (.inclk0(clk), .c0(clk_1) );
+	altpll_50_10 pll_0 (.inclk0(clk), .c0(clk_10), .c1(clk_1) );
+	// altpll_50_1  pll_1 (.inclk0(clk), .c0(clk_1) );
 
 	`endif
 	
