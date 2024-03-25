@@ -5,7 +5,7 @@ module top;
 
 	reg  clk = 1'b1;
 	reg  reset = 1'b1;
-	reg  evr_trigger = 1'b0;
+	reg  evr_trigger = 1'b1;
 	wire tx_output;
 	wire pll_clock;
 	
@@ -26,8 +26,8 @@ module top;
 		#1000 reset = 1'b0;
 		#3000 reset = 1'b1;
 		
-		#15000 evr_trigger = 1'b1;
-		#21000 evr_trigger = 1'b0;
+		#15000 evr_trigger = 1'b0;
+		#21000 evr_trigger = 1'b1;
 	join
 	
 	initial #80000 $stop;

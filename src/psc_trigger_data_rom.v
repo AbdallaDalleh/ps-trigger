@@ -14,7 +14,7 @@ module psc_trigger_data_rom (
 		case (address)
 			4'b0000: data <= SOP;
 			4'b0001: data <= 8'h00;
-			4'b0010: data <= (is_trigger ? 8'h70 : 8'h40);
+			4'b0010: data <= (is_trigger ? 8'h30 : 8'h00);
 			4'b0011: data <= 8'h00;
 			4'b0100: data <= 8'h0;
 			4'b0101: data <= 8'h0;

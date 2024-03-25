@@ -57,7 +57,7 @@ module psc_trigger
 
 	psc_trigger_rising_edge detector0 (
 		.clk(clk_1), 
-		.signal(evr_trigger),
+		.signal(~evr_trigger),
 		.out(trigger_signal)
 	);
 

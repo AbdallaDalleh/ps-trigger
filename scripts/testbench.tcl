@@ -26,22 +26,22 @@ vsim -t 1ns \
 	 -voptargs="+acc" \
 	 top
 
-add wave clk
-add wave trigger0.clk_10
+# add wave clk
 add wave trigger0.clk_1
-add wave trigger0.load_register
+# add wave trigger0.load_register
+add wave trigger0.clk_10_logic
 add wave reset
 add wave trigger0.reset_signal
-add wave trigger0.clk_10_logic
 add wave evr_trigger
-add wave trigger0.rom0.data
 add wave trigger0.trigger_signal
-# add wave trigger0.tx_byte
 add wave trigger0.encoder0.crc_stream0.crc_o
 add wave trigger0.encoder_out
-add wave trigger0.reg0.data
-add wave trigger0.encoder0.encoder0.datain
 add wave tx_output
+add wave trigger0.clk_10
+# add wave trigger0.rom0.data
+# add wave trigger0.tx_byte
+# add wave trigger0.reg0.data
+# add wave trigger0.encoder0.encoder0.datain
 # add wave trigger0.reg0.data_in
 # add wave clk
 # add wave trigger0.tx_done
