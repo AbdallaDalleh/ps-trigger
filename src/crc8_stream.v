@@ -1,12 +1,14 @@
 
 module crc8_stream #(parameter POLYNOMIAL=8'h07)
 (
-    input  wire clk,
+	input  wire clk,
 	input  wire reset,
-    input  wire [7:0] data_i,
-    output wire [7:0] crc_o,
+	input  wire [7:0] data_i,
+	output wire [7:0] crc_o,
 	output wire [3:0] byte_counter
 );
+
+	localparam TX_BYTE_COUNT = 4'd10;
 
 	wire crc_reset;
 	reg  [3:0] counter;
@@ -32,7 +34,7 @@ module crc8_stream #(parameter POLYNOMIAL=8'h07)
 		end
 		else begin
 			counter <= counter + 4'b1;
-			if (counter == 4'b1001)
+			if (counter == TX_BYTE_COUNT)
 				counter <= 4'b0;
 		end
 	end

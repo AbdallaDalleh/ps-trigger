@@ -13,12 +13,14 @@ module psc_trigger_fsm (
 	parameter state_load_trigger = 3'b011;
 	parameter state_tx_wait      = 3'b110;
 	
+	localparam TX_BYTE_COUNT = 4'd10;
+	
 	reg  [2:0] state = state_load_idle;
 	reg  [2:0] next_state;
 	wire       tx_done;  
 
 	assign is_trigger = (state == state_load_trigger);
-	assign tx_done    = (tx_counter == 4'd9) ? 1'b1 : 1'b0;
+	assign tx_done    = (tx_counter == TX_BYTE_COUNT) ? 1'b1 : 1'b0;
 
 	always @(posedge clk or negedge reset) begin
 		if(~reset) begin
@@ -26,7 +28,7 @@ module psc_trigger_fsm (
 			tx_counter <= 4'd0;
 		end
 		else begin
-			tx_counter <= (tx_counter == 4'd9) ? 4'd0 : tx_counter + 4'd1;
+			tx_counter <= (tx_counter == TX_BYTE_COUNT) ? 4'd0 : tx_counter + 4'd1;
 			state      <= next_state;
 		end
 	end
