@@ -18,7 +18,7 @@ module psc_trigger
 	// wire       load_register;
 	wire       is_trigger;
 	
-	`ifdef X
+	`ifdef __SIM__
 	
 	psc_trigger_clock_divider #(.FACTOR(1)) div_2 (
 		.clk_in(clk),
@@ -54,10 +54,14 @@ module psc_trigger
 		.signal(reset),
 		.out(reset_signal)
 	);
-
+	
+	reg evr_trigger_neg;
+	always @(posedge clk_1)
+		evr_trigger_neg <= ~evr_trigger;
+		
 	psc_trigger_rising_edge detector0 (
 		.clk(clk_1), 
-		.signal(~evr_trigger),
+		.signal(evr_trigger_neg),
 		.out(trigger_signal)
 	);
 

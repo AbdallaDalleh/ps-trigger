@@ -16,14 +16,14 @@ module top;
 		.psc_output(tx_output)
 	);
 	
-	`ifdef X
+	`ifdef __SIM__
 	always @(clk) #5 clk <= ~clk;
 	`else
 	always @(clk) #10 clk <= ~clk;
 	`endif
 	
 	initial fork
-		#1000 reset = 1'b0;
+		#2000 reset = 1'b0;
 		#3000 reset = 1'b1;
 		
 		#15000 evr_trigger = 1'b0;
