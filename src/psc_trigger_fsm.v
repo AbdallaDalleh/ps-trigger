@@ -13,7 +13,7 @@ module psc_trigger_fsm (
 	parameter state_load_trigger = 3'b011;
 	parameter state_tx_wait      = 3'b110;
 	
-	localparam TX_BYTE_COUNT = 4'd10;
+	localparam TX_BYTE_COUNT = 4'd9;
 	
 	reg  [2:0] state = state_load_idle;
 	reg  [2:0] next_state;

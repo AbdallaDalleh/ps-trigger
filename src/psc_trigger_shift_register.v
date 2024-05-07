@@ -16,6 +16,6 @@ module psc_trigger_shift_register (
 			data <= {data[8:0], data[9]};
 	end
 	
-	assign data_out = ~data[9];
+	assign data_out = ~data[0];
 
 endmodule

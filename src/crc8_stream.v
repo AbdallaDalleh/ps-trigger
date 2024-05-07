@@ -8,7 +8,7 @@ module crc8_stream #(parameter POLYNOMIAL=8'h07)
 	output wire [3:0] byte_counter
 );
 
-	localparam TX_BYTE_COUNT = 4'd10;
+	localparam TX_BYTE_COUNT = 4'd9;
 
 	wire crc_reset;
 	reg  [3:0] counter;
