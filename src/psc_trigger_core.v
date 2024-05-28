@@ -17,6 +17,7 @@ module psc_trigger
 	wire       clk_1;
 	// wire       load_register;
 	wire       is_trigger;
+	wire       status_byte_done;
 	
 	`ifdef __SIM__
 	
@@ -87,15 +88,19 @@ module psc_trigger
 	);
 
 	psc_trigger_data_rom rom0 (
+		.clk(clk_1),
+		.reset(trigger_signal),
 		.address(tx_counter),
-		.is_trigger(is_trigger),
-		.data(tx_byte)
+		.is_trigger_state(is_trigger),
+		.data(tx_byte),
+		.status_byte_done(status_byte_done)
 	);
 	
 	psc_trigger_fsm fsm0 (
 		.clk(clk_1),
 		.reset(reset),
 		.trigger_pulse(trigger_signal),
+		.status_byte_done(status_byte_done),
 		.is_trigger(is_trigger),
 		.tx_counter(tx_counter)
 	);

@@ -4,6 +4,7 @@ module psc_trigger_fsm (
 	input  wire       clk,
 	input  wire       reset,
 	input  wire       trigger_pulse,
+	input  wire       status_byte_done,
 	output wire       is_trigger,
 	output reg  [3:0] tx_counter
 
@@ -33,7 +34,7 @@ module psc_trigger_fsm (
 		end
 	end
 
-	always @(state, trigger_pulse, tx_done) begin
+	always @(state, trigger_pulse, tx_done, status_byte_done) begin
 		case(state)
 			state_load_idle:
 				if(trigger_pulse)
@@ -48,7 +49,7 @@ module psc_trigger_fsm (
 					next_state <= state_tx_wait;
 
 			state_load_trigger:
-				if(tx_done)
+				if(tx_done && status_byte_done == 1'b1)
 					next_state <= state_load_idle;
 				else
 					next_state <= state_load_trigger;
