@@ -211,8 +211,8 @@ set_global_assignment -name QIP_FILE ip/altpll_50_1.qip
 set_global_assignment -name VERILOG_FILE src/psc_trigger_clock_divider.v
 set_global_assignment -name VERILOG_FILE src/psc_logic_clock.v
 
-set_location_assignment PIN_B5 -to clk_10_logic
-set_location_assignment PIN_C6 -to load_register
+set_location_assignment PIN_A3 -to clk_10_logic
+set_location_assignment PIN_B5 -to load_register
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to load_register
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to clk_10_logic
 set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to load_register

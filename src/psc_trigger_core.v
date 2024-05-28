@@ -43,11 +43,12 @@ module psc_trigger
 	`endif
 	
 	wire reset_signal;
-	psc_logic_clock clock_logic (
-		.clk_in(clk_10),
-		.reset(reset_signal),
-		.clk_out(clk_10_logic)
-	);
+//	psc_logic_clock clock_logic (
+//		.clk_in(clk_10),
+//		.reset(reset_signal),
+//		.clk_out(clk_10_logic)
+//	);
+	assign clk_10_logic = clk_10;
 
 	psc_trigger_rising_edge detector_neg (
 		.clk(clk_10),
