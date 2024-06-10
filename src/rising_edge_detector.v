@@ -1,4 +1,4 @@
-module psc_trigger_rising_edge (
+module RisingEdgeDetector (
 	
 	input  clk,
 	input  signal,

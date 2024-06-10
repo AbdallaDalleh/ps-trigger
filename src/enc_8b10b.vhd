@@ -33,7 +33,7 @@
 library IEEE; 
 use IEEE.STD_LOGIC_1164.all; 
  
-entity enc_8b10b is     
+entity Encoder8b10b is     
     port( 
         reset : in std_logic;          -- Active high reset
         clk : in std_logic ;           -- Clock to register dataout
@@ -42,9 +42,9 @@ entity enc_8b10b is
         datain : in std_logic_vector(7 downto 0); --8 bit input data
         dataout : out std_logic_vector(9 downto 0) --10 bit encoded output
         ); 
-end enc_8b10b; 
+end Encoder8b10b; 
 
-architecture behavioral of enc_8b10b is 
+architecture behavioral of Encoder8b10b is 
  
     signal aeqb : std_logic; -- (ai & bi) | (!ai & !bi) ;
     signal ceqd : std_logic; -- (ci & di) | (!ci & !di) ;

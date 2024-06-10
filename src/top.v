@@ -28,6 +28,9 @@ module top;
 		
 		#15000 evr_trigger = 1'b0;
 		#21000 evr_trigger = 1'b1;
+		
+		#150000 evr_trigger = 1'b0;
+		#156000 evr_trigger = 1'b1;
 	join
 	
 	initial #3000000 $stop;

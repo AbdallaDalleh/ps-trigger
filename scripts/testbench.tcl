@@ -1,7 +1,7 @@
 vlog -vlog01compat \
 	 -work work \
 	 +incdir+C:/psc-trigger/src \
-	 {C:/psc-trigger/src/psc_trigger_clock_divider.v}
+	 {C:/psc-trigger/src/clock_divider.v}
 
 vlog -vlog01compat \
 	 -work work \
@@ -29,12 +29,9 @@ vsim -t 1ns \
 # add wave clk
 add wave trigger0.clk_1
 add wave reset
-add wave evr_trigger
-add wave trigger0.detector0.signal
-add wave trigger0.fsm0.is_trigger
-add wave trigger0.rom0.status_byte_counter
+add wave trigger0.tx_byte
 add wave trigger0.trigger_signal
-add wave trigger0.encoder0.crc_stream0.crc_o
+add wave trigger0.encoder0.crc_byte
 add wave trigger0.encoder_out
 add wave tx_output
 add wave trigger0.clk_10

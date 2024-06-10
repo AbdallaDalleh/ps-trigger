@@ -1,5 +1,5 @@
 
-module psc_trigger_clock_divider #(
+module ClockDivider #(
 	parameter FACTOR = 8'b0000_0101
 )(
 	input  wire clk_in,

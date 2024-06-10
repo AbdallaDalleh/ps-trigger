@@ -10,7 +10,7 @@
  *          high.
  */
  
-module crc8_core #(parameter POLYNOMIAL=8'h07, parameter INITIAL = 8'h00)
+module CRC8Generator #(parameter POLYNOMIAL=8'h07, parameter INITIAL = 8'h00)
 (
     input wire clk_i,
     input wire rst_i,

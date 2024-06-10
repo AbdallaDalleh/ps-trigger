@@ -21,15 +21,15 @@ module psc_trigger
 	
 	`ifdef __SIM__
 	
-	psc_trigger_clock_divider #(.FACTOR(1)) div_2 (
+	ClockDivider #(.FACTOR(1)) div_2 (
 		.clk_in(clk),
 		.clk_out(clk_50)
 	);
-	psc_trigger_clock_divider #(.FACTOR(5)) div_10 (
+	ClockDivider #(.FACTOR(5)) div_10 (
 		.clk_in(clk),
 		.clk_out(clk_10)
 	);
-	psc_trigger_clock_divider #(.FACTOR(50)) div_100 (
+	ClockDivider #(.FACTOR(50)) div_100 (
 		.clk_in(clk),
 		.clk_out(clk_1)
 	);
@@ -43,7 +43,7 @@ module psc_trigger
 
 	`endif
 	
-	wire reset_signal;
+//	wire reset_signal;
 //	psc_logic_clock clock_logic (
 //		.clk_in(clk_10),
 //		.reset(reset_signal),
@@ -51,58 +51,51 @@ module psc_trigger
 //	);
 	assign clk_10_logic = clk_10;
 
-	psc_trigger_rising_edge detector_neg (
-		.clk(clk_10),
-		.signal(reset),
-		.out(reset_signal)
-	);
+//	psc_trigger_rising_edge detector_neg (
+//		.clk(clk_10),
+//		.signal(reset),
+//		.out(reset_signal)
+//	);
 	
 	reg evr_trigger_neg;
 	always @(posedge clk_1)
 		evr_trigger_neg <= ~evr_trigger;
 		
-	psc_trigger_rising_edge detector0 (
+	RisingEdgeDetector detector0 (
 		.clk(clk_1), 
 		.signal(evr_trigger_neg),
 		.out(trigger_signal)
 	);
 
-	psc_trigger_rising_edge detector1 (
+	RisingEdgeDetector detector1 (
 		.clk(clk_50),
 		.signal(clk_1),
 		.out(load_register)
 	);
 	
-	crc8_encoder encoder0 (
+	FrameEncoder encoder0 (
 		.clk(clk_1),
 		.reset(reset),
 		.data_in(tx_byte),
+		.counter(tx_counter),
 		.data_out(encoder_out)
 	);
 	
-	psc_trigger_shift_register reg0 (
+	ShiftRegister reg0 (
 		.clk(clk_10),
 		.load(load_register),
 		.data_in(encoder_out),
 		.data_out(psc_output)
 	);
 
-	psc_trigger_data_rom rom0 (
-		.clk(clk_1),
-		.reset(trigger_signal),
-		.address(tx_counter),
-		.is_trigger_state(is_trigger),
-		.data(tx_byte),
-		.status_byte_done(status_byte_done)
-	);
-	
-	psc_trigger_fsm fsm0 (
+	TriggerController fsm0 (
 		.clk(clk_1),
 		.reset(reset),
 		.trigger_pulse(trigger_signal),
-		.status_byte_done(status_byte_done),
+		// .status_byte_done(status_byte_done),
 		.is_trigger(is_trigger),
-		.tx_counter(tx_counter)
+		.tx_counter(tx_counter),
+		.data(tx_byte)
 	);
 
 endmodule
