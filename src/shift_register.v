@@ -1,4 +1,7 @@
 
+//
+// A standard 10-bit circular shift register
+//
 module ShiftRegister (
 
 	input  wire       clk,

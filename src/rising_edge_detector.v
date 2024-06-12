@@ -1,3 +1,7 @@
+
+//
+// A module to detect the arrival of a rising edge of the input signal.
+//
 module RisingEdgeDetector (
 	
 	input  clk,

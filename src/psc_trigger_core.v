@@ -1,4 +1,6 @@
-
+//
+// Top-level module.
+//
 module psc_trigger
 (
 	input  wire clk,
@@ -9,37 +11,29 @@ module psc_trigger
 	output wire load_register
 );
 
-	wire [3:0] tx_counter;
+	// wire       load_register;
 	wire [7:0] tx_byte;
 	wire [9:0] encoder_out;
 	wire       trigger_signal;
 	wire       clk_10;
 	wire       clk_1;
-	// wire       load_register;
 	wire       is_trigger;
 	wire       status_byte_done;
+	wire       is_control_byte;
+	wire       is_crc_byte;
+	wire       crc_reset;
 	
 	`ifdef __SIM__
 	
-	ClockDivider #(.FACTOR(1)) div_2 (
-		.clk_in(clk),
-		.clk_out(clk_50)
-	);
-	ClockDivider #(.FACTOR(5)) div_10 (
-		.clk_in(clk),
-		.clk_out(clk_10)
-	);
-	ClockDivider #(.FACTOR(50)) div_100 (
-		.clk_in(clk),
-		.clk_out(clk_1)
-	);
+	ClockDivider #(.FACTOR(1))  div_2   (.clk_in(clk), .clk_out(clk_50));
+	ClockDivider #(.FACTOR(5))  div_10  (.clk_in(clk), .clk_out(clk_10));
+	ClockDivider #(.FACTOR(50)) div_100 (.clk_in(clk), .clk_out(clk_1));
 	
 	`else
 
 	wire clk_50;
 	assign clk_50 = clk;
 	altpll_50_10 pll_0 (.inclk0(clk), .c0(clk_10), .c1(clk_1) );
-	// altpll_50_1  pll_1 (.inclk0(clk), .c0(clk_1) );
 
 	`endif
 	
@@ -74,11 +68,17 @@ module psc_trigger
 	);
 	
 	FrameEncoder encoder0 (
+	
+		// Inputs
 		.clk(clk_1),
 		.reset(reset),
 		.data_in(tx_byte),
-		.counter(tx_counter),
-		.data_out(encoder_out)
+		.data_out(encoder_out),
+		.is_control_byte(is_control_byte),
+		.is_crc_byte(is_crc_byte),
+		
+		// Outputs
+		.crc_reset(crc_reset)
 	);
 	
 	ShiftRegister reg0 (
@@ -89,13 +89,17 @@ module psc_trigger
 	);
 
 	TriggerController fsm0 (
+	
+		// Inputs
 		.clk(clk_1),
 		.reset(reset),
 		.trigger_pulse(trigger_signal),
-		// .status_byte_done(status_byte_done),
-		.is_trigger(is_trigger),
-		.tx_counter(tx_counter),
-		.data(tx_byte)
+		
+		// Outputs
+		.data(tx_byte),
+		.is_control_byte(is_control_byte),
+		.is_crc_byte(is_crc_byte),
+		.crc_reset(crc_reset)
 	);
 
 endmodule

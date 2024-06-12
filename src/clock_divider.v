@@ -1,4 +1,7 @@
 
+//
+// A clock divder to simulate the PLL divider function.
+//
 module ClockDivider #(
 	parameter FACTOR = 8'b0000_0101
 )(

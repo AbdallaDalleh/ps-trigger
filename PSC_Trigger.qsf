@@ -112,7 +112,7 @@ set_global_assignment -name EDA_TEST_BENCH_FILE src/top.v -section_id top
 set_global_assignment -name EDA_TIME_SCALE "1 ps" -section_id eda_simulation
 set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "VERILOG HDL" -section_id eda_simulation
 set_global_assignment -name EDA_TEST_BENCH_ENABLE_STATUS COMMAND_MACRO_MODE -section_id eda_simulation
-set_global_assignment -name EDA_SIMULATION_RUN_SCRIPT scripts/testbench.tcl -section_id eda_simulation
+set_global_assignment -name EDA_SIMULATION_RUN_SCRIPT testbench/top.tcl -section_id eda_simulation
 set_global_assignment -name EDA_TEST_BENCH_NAME top -section_id eda_simulation
 set_global_assignment -name EDA_USER_COMPILED_SIMULATION_LIBRARY_DIRECTORY "C:/psc-trigger/simulation" -section_id eda_simulation
 set_global_assignment -name EDA_NETLIST_WRITER_OUTPUT_DIR simulation/ -section_id eda_simulation
@@ -197,6 +197,8 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to load_register
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to clk_10_logic
 set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to load_register
 set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to clk_10_logic
+set_global_assignment -name VERILOG_FILE testbench/top.v
+set_global_assignment -name TCL_SCRIPT_FILE testbench/top.tcl
 set_global_assignment -name VERILOG_FILE src/trigger_controller.v
 set_global_assignment -name VERILOG_FILE src/shift_register.v
 set_global_assignment -name VERILOG_FILE src/rising_edge_detector.v
@@ -206,9 +208,7 @@ set_global_assignment -name VERILOG_FILE src/crc8_stream.v
 set_global_assignment -name VERILOG_FILE src/crc8_core.v
 set_global_assignment -name VERILOG_FILE src/crc8_table.v
 set_global_assignment -name VERILOG_FILE src/psc_trigger_core.v
-set_global_assignment -name VERILOG_FILE src/top.v
 set_global_assignment -name QIP_FILE ip/altpll_50_10.qip
-set_global_assignment -name TCL_SCRIPT_FILE scripts/testbench.tcl
 set_global_assignment -name QIP_FILE ip/altpll_50_1.qip
 set_global_assignment -name VERILOG_FILE src/psc_logic_clock.v
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
