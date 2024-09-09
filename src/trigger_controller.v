@@ -46,15 +46,15 @@ module TriggerController (
 			4'b0000: rom_byte <= SOP;
 
 			// Status byte
-			4'b0001: rom_byte <= (is_trigger ? status_byte_counter : 8'h00);
+			4'b0001: rom_byte <= 8'b0;
 
-			4'b0010: rom_byte <= (is_trigger ? 8'h30 : 8'h00); // Control byte (Address 1)
-			4'b0011: rom_byte <= 8'h00; // Address 0
-			4'b0100: rom_byte <= 8'h00; // uint32_t data
-			4'b0101: rom_byte <= 8'h00;
-			4'b0110: rom_byte <= 8'h00;
-			4'b0111: rom_byte <= 8'h00;
-			4'b1000: rom_byte <= 8'h00; // CRC8 placeholder
+			4'b0010: rom_byte <= (is_trigger ? 8'h10 : 8'b0); // Control byte (Address 1)
+			4'b0011: rom_byte <= 8'b0;   // Address 0
+			4'b0100: rom_byte <= 8'b0;   // uint32_t data
+			4'b0101: rom_byte <= 8'b0;
+			4'b0110: rom_byte <= 8'b0;
+			4'b0111: rom_byte <= 8'b0;
+			4'b1000: rom_byte <= 8'b0;   // CRC8 placeholder
 			4'b1001: rom_byte <= EOP;
 
 			default: rom_byte <= 8'bxxxx_xxxx;
@@ -62,7 +62,6 @@ module TriggerController (
     end
 
 	// FSM control signals.
-	assign status_byte_done = (status_byte_counter == 8'hff);
 	assign is_trigger       = (state == state_load_trigger);
 	assign tx_done          = (tx_counter == FRAME_LENGTH);
 
@@ -73,14 +72,15 @@ module TriggerController (
 	assign crc_reset        = (tx_counter == 4'h0);
 	
 	// Asynchronous counter to iterate over the status byte.
-	always @(posedge clk or posedge trigger_pulse) begin
-		if (trigger_pulse)
-			status_byte_counter <= 8'h0;
-		else begin
-			if (tx_counter == 4'b0000)
-				status_byte_counter <= status_byte_counter + 8'h1;
-		end
-	end
+//	assign status_byte_done = (status_byte_counter == 8'hff);
+//	always @(posedge clk or posedge trigger_pulse) begin
+//		if (trigger_pulse)
+//			status_byte_counter <= 8'h0;
+//		else begin
+//			if (tx_counter == 4'b0000)
+//				status_byte_counter <= status_byte_counter + 8'h1;
+//		end
+//	end
 	
 	// Main FSM logic
 	always @(posedge clk or negedge reset) begin
@@ -94,7 +94,7 @@ module TriggerController (
 		end
 	end
 
-	always @(state, trigger_pulse, tx_done, status_byte_done) begin
+	always @(state, trigger_pulse, tx_done) begin
 		case(state)
 			state_load_idle:
 				if(trigger_pulse)
@@ -109,7 +109,7 @@ module TriggerController (
 					next_state <= state_tx_wait;
 
 			state_load_trigger:
-				if(tx_done && status_byte_done == 1'b1)
+				if(tx_done)
 					next_state <= state_load_idle;
 				else
 					next_state <= state_load_trigger;

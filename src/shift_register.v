@@ -11,6 +11,7 @@ module ShiftRegister (
 );
 
 	reg [9:0] data;
+	wire      data_out_ela;
 
 	always @(posedge clk or posedge load) begin
 		if (load)
@@ -20,5 +21,6 @@ module ShiftRegister (
 	end
 	
 	assign data_out = ~data[0];
+	assign data_out_ela = ~data[0];
 
 endmodule

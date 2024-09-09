@@ -13,7 +13,9 @@ module top;
 		.clk(clk),
 		.reset(reset),
 		.evr_trigger(evr_trigger),
-		.psc_output(tx_output)
+		.psc_output(tx_output),
+		.load_register(),
+		.clk_10_logic()
 	);
 	
 	`ifdef __SIM__

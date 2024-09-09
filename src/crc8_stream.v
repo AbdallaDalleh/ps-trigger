@@ -36,6 +36,14 @@ module FrameEncoder
 		.dataout(data_out)
 	);
 
+//	encoder_8b10b encoder (
+//		.clk(clk),
+//		.reset(reset),
+//		.KI(is_control_byte),
+//		.datain(crc_o),
+//		.dataout(data_out)
+//	);
+
 	assign crc_o = (is_crc_byte ? crc_byte : data_in);
 
 endmodule

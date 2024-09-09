@@ -6,14 +6,14 @@ vlog -vlog01compat \
 
 vlog -vlog01compat \
 	 -work work \
-	 +define+__SIM__ \
+	 +define+__SIMX__ \
 	 +incdir+C:/psc-trigger/src \
 	 {C:/psc-trigger/src/psc_trigger_core.v}
-
+	 
 vlog -vlog01compat \
 	 -work work \
 	 +incdir+C:/psc-trigger \
-	 +define+__SIM__ \
+	 +define+__SIMX__ \
 	 {C:/psc-trigger/testbench/top.v} \
 
 vsim -t 1ns \
@@ -30,14 +30,9 @@ vsim -t 1ns \
 add wave trigger0.clk_1
 add wave reset
 add wave trigger0.tx_byte
-add wave trigger0.fsm0.tx_counter
-add wave trigger0.fsm0.status_byte_counter
-add wave trigger0.fsm0.state
-add wave trigger0.fsm0.next_state
-add wave trigger0.fsm0.status_byte_done
+add wave trigger0.encoder_out
+add wave trigger0.encoder_lsb_out
 add wave trigger0.trigger_signal
-# add wave trigger0.encoder0.crc_byte
-# add wave trigger0.encoder_out
-# add wave tx_output
+add wave trigger0.psc_output
 
 run -all
