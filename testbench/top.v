@@ -7,15 +7,16 @@ module top;
 	reg  reset = 1'b1;
 	reg  evr_trigger = 1'b1;
 	wire tx_output;
-	wire pll_clock;
+	wire trigger_out;
+	wire clk_10;
 	
 	psc_trigger trigger0 (
 		.clk(clk),
 		.reset(reset),
 		.evr_trigger(evr_trigger),
 		.psc_output(tx_output),
-		.load_register(),
-		.clk_10_logic()
+		.trigger_out(trigger_out),
+		.clk_10_logic(clk_10)
 	);
 	
 	`ifdef __SIM__

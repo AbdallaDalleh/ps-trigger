@@ -8,10 +8,10 @@ module psc_trigger
 	input  wire evr_trigger,
 	output wire psc_output,
 	output wire clk_10_logic,
-	output wire load_register
+	output wire trigger_out
 );
 
-	// wire       load_register;
+	wire       load_register;
 	wire [7:0] tx_byte;
 	wire [9:0] encoder_out;
 	wire       trigger_signal;
@@ -36,21 +36,21 @@ module psc_trigger
 	altpll_50_10 pll_0 (.inclk0(clk), .c0(clk_10), .c1(clk_1) );
 
 	`endif
-	
+
+//	assign clk_10_logic = clk_10;	
 	wire reset_signal;
 	psc_logic_clock clock_logic (
 		.clk_in(clk_10),
 		.reset(reset_signal),
 		.clk_out(clk_10_logic)
 	);
-//	assign clk_10_logic = clk_10;
-
 	RisingEdgeDetector detector_neg (
 		.clk(clk_10),
 		.signal(reset),
 		.out(reset_signal)
 	);
 	
+	assign trigger_out = evr_trigger;
 	reg evr_trigger_neg;
 	always @(posedge clk_1)
 		evr_trigger_neg <= ~evr_trigger;
@@ -80,18 +80,7 @@ module psc_trigger
 		// Outputs
 		.crc_reset(crc_reset)
 	);
-	
-	wire [9:0] encoder_lsb_out;
-	assign encoder_lsb_out[0] = encoder_out[9];
-	assign encoder_lsb_out[1] = encoder_out[8];
-	assign encoder_lsb_out[2] = encoder_out[7];
-	assign encoder_lsb_out[3] = encoder_out[6];
-	assign encoder_lsb_out[4] = encoder_out[5];
-	assign encoder_lsb_out[5] = encoder_out[4];
-	assign encoder_lsb_out[6] = encoder_out[3];
-	assign encoder_lsb_out[7] = encoder_out[2];
-	assign encoder_lsb_out[8] = encoder_out[1];
-	assign encoder_lsb_out[9] = encoder_out[0];
+
 	ShiftRegister reg0 (
 		.clk(clk_10),
 		.load(load_register),

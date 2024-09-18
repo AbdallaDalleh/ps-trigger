@@ -27,12 +27,14 @@ vsim -t 1ns \
 	 -voptargs="+acc" \
 	 top
 
+add wave trigger0.clk_10
 add wave trigger0.clk_1
-add wave reset
-add wave trigger0.tx_byte
-add wave trigger0.encoder_out
-add wave trigger0.encoder_lsb_out
 add wave trigger0.trigger_signal
+add wave trigger0.encoder_out
+add wave trigger0.reg0.data
 add wave trigger0.psc_output
+add wave trigger0.load_register
+add wave trigger0.fsm0.tx_counter
+add wave trigger0.fsm0.crc_reset
 
 run -all
