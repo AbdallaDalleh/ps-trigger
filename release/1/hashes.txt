@@ -1,0 +1,2 @@
+SOF 705e3783e801790e6f3abe80cdad134addc7fafd26d68eb8a33cf5388b137658 *release//1/PSC_Trigger.sof
+JIC a04ab6c8db6b76f28d5aeda5c8acdd2e8d6fa3eca3c534f9e42cdcca86190ba0 *release//1/PSC_Trigger.jic
