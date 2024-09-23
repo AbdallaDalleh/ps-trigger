@@ -19,7 +19,7 @@
 #
 # Quartus Prime
 # Version 23.1std.1 Build 993 05/14/2024 SC Lite Edition
-# Date created = 10:27:25  September 09, 2024
+# Date created = 13:03:12  September 23, 2024
 #
 # -------------------------------------------------------------------------- #
 #
@@ -46,6 +46,7 @@ set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
 set_global_assignment -name LAST_QUARTUS_VERSION "23.1std.1 Lite Edition"
 set_global_assignment -name NUM_PARALLEL_PROCESSORS 4
 set_global_assignment -name FLOW_ENABLE_RTL_VIEWER ON
+set_global_assignment -name VERILOG_FILE src/encoder_8b10b.v
 set_global_assignment -name VERILOG_FILE testbench/top.v
 set_global_assignment -name TCL_SCRIPT_FILE testbench/top.tcl
 set_global_assignment -name VERILOG_FILE src/trigger_controller.v
@@ -68,6 +69,7 @@ set_location_assignment PIN_E1 -to reset
 set_location_assignment PIN_J15 -to evr_trigger
 set_location_assignment PIN_D3 -to psc_output
 set_location_assignment PIN_A3 -to clk_10_logic
+set_location_assignment PIN_B5 -to trigger_out
 
 # Classic Timing Assignments
 # ==========================
@@ -112,9 +114,9 @@ set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -
 
 	# EDA Netlist Writer Assignments
 	# ==============================
-set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id top
-set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME top -section_id top
-set_global_assignment -name EDA_TEST_BENCH_FILE src/top.v -section_id top
+	set_global_assignment -name EDA_DESIGN_INSTANCE_NAME NA -section_id top
+	set_global_assignment -name EDA_TEST_BENCH_MODULE_NAME top -section_id top
+	set_global_assignment -name EDA_TEST_BENCH_FILE src/top.v -section_id top
 
 # end EDA_TEST_BENCH_SETTINGS(top)
 # --------------------------------
@@ -124,16 +126,16 @@ set_global_assignment -name EDA_TEST_BENCH_FILE src/top.v -section_id top
 
 	# EDA Netlist Writer Assignments
 	# ==============================
-set_global_assignment -name EDA_TIME_SCALE "1 ps" -section_id eda_simulation
-set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "VERILOG HDL" -section_id eda_simulation
-set_global_assignment -name EDA_TEST_BENCH_ENABLE_STATUS COMMAND_MACRO_MODE -section_id eda_simulation
-set_global_assignment -name EDA_SIMULATION_RUN_SCRIPT testbench/top.tcl -section_id eda_simulation
-set_global_assignment -name EDA_TEST_BENCH_NAME top -section_id eda_simulation
-set_global_assignment -name EDA_USER_COMPILED_SIMULATION_LIBRARY_DIRECTORY "C:/psc-trigger/simulation" -section_id eda_simulation
+	set_global_assignment -name EDA_TIME_SCALE "1 ps" -section_id eda_simulation
+	set_global_assignment -name EDA_OUTPUT_DATA_FORMAT "VERILOG HDL" -section_id eda_simulation
+	set_global_assignment -name EDA_TEST_BENCH_ENABLE_STATUS COMMAND_MACRO_MODE -section_id eda_simulation
+	set_global_assignment -name EDA_SIMULATION_RUN_SCRIPT testbench/top.tcl -section_id eda_simulation
+	set_global_assignment -name EDA_TEST_BENCH_NAME top -section_id eda_simulation
+	set_global_assignment -name EDA_USER_COMPILED_SIMULATION_LIBRARY_DIRECTORY "C:/psc-trigger/simulation" -section_id eda_simulation
 set_global_assignment -name EDA_NETLIST_WRITER_OUTPUT_DIR simulation/ -section_id eda_simulation
-set_global_assignment -name EDA_EXTRA_ELAB_OPTION +define+SIM -section_id eda_simulation
+	set_global_assignment -name EDA_EXTRA_ELAB_OPTION +define+SIM -section_id eda_simulation
 	set_global_assignment -name EDA_NATIVELINK_GENERATE_SCRIPT_ONLY OFF -section_id eda_simulation
-set_global_assignment -name EDA_MAINTAIN_DESIGN_HIERARCHY ON -section_id eda_simulation
+	set_global_assignment -name EDA_MAINTAIN_DESIGN_HIERARCHY ON -section_id eda_simulation
 	set_global_assignment -name EDA_LAUNCH_CMD_LINE_TOOL OFF -section_id eda_simulation
 	set_global_assignment -name EDA_GENERATE_FUNCTIONAL_NETLIST ON -section_id eda_simulation
 
@@ -145,33 +147,31 @@ set_global_assignment -name EDA_MAINTAIN_DESIGN_HIERARCHY ON -section_id eda_sim
 
 	# Fitter Assignments
 	# ==================
-set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to evr_trigger
-set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to clk
-set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to psc_output
-set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to reset
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to psc_output
-set_instance_assignment -name IO_STANDARD "2.5 V" -to evr_trigger
-set_instance_assignment -name IO_STANDARD "2.5 V" -to clk
-set_instance_assignment -name IO_STANDARD "2.5 V" -to reset
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to clk_10_logic
-set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to clk_10_logic
+	set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to evr_trigger
+	set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to clk
+	set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to psc_output
+	set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to reset
+	set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to psc_output
+	set_instance_assignment -name IO_STANDARD "2.5 V" -to evr_trigger
+	set_instance_assignment -name IO_STANDARD "2.5 V" -to clk
+	set_instance_assignment -name IO_STANDARD "2.5 V" -to reset
+	set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to clk_10_logic
+	set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to clk_10_logic
+	set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to trigger_out
+	set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to trigger_out
 
 	# start DESIGN_PARTITION(Top)
 	# ---------------------------
 
 		# Incremental Compilation Assignments
 		# ===================================
-set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
-set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
-set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+		set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+		set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+		set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 
 	# end DESIGN_PARTITION(Top)
 	# -------------------------
 
 # end ENTITY(psc_trigger)
 # -----------------------
-
-set_location_assignment PIN_B5 -to trigger_out
-set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to trigger_out
-set_instance_assignment -name CURRENT_STRENGTH_NEW 8MA -to trigger_out
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
