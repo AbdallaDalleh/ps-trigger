@@ -29,8 +29,12 @@ vsim -t 1ns \
 
 add wave trigger0.clk_10
 add wave trigger0.clk_1
+add wave reset
 add wave trigger0.trigger_signal
 add wave trigger0.encoder_out
+add wave trigger0.encoder0.crc_o
+add wave trigger0.fsm0.data
+add wave trigger0.encoder0.crc_byte
 add wave trigger0.reg0.data
 add wave trigger0.psc_output
 add wave trigger0.load_register

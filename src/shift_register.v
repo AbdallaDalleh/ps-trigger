@@ -16,11 +16,11 @@ module ShiftRegister (
 		if (load)
 			data <= data_in;
 		else
-			// data <= {data[8:0], data[9]};
-			data <= {data[0], data[9:1]};
+			data <= {data[8:0], data[9]};
+			// data <= {data[0], data[9:1]};
 	end
 	
-	// assign data_out = data[9];
-	assign data_out = ~data[0];
+	assign data_out = ~data[9];
+	// assign data_out = ~data[0];
 
 endmodule

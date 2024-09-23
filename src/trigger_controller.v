@@ -38,7 +38,7 @@ module TriggerController (
 	// Wires
 	wire tx_done;
 	wire status_byte_done;
-	wire is_trigger;
+	reg  [7:0] trigger_byte;
 
 	// Frame Data ROM
     always @(*) begin
@@ -48,7 +48,7 @@ module TriggerController (
 			// Status byte
 			4'b0001: rom_byte <= 8'b0;
 
-			4'b0010: rom_byte <= (is_trigger ? 8'h10 : 8'b0); // Control byte (Address 1)
+			4'b0010: rom_byte <= trigger_byte; // Control byte (Address 1)
 			4'b0011: rom_byte <= 8'b0;   // Address 0
 			4'b0100: rom_byte <= 8'b0;   // uint32_t data
 			4'b0101: rom_byte <= 8'b0;
@@ -62,7 +62,7 @@ module TriggerController (
     end
 
 	// FSM control signals.
-	assign is_trigger       = (state == state_load_trigger);
+	// assign trigger_byte     = (state == state_load_trigger) ? 8'h08 : 8'b0;
 	assign tx_done          = (tx_counter == FRAME_LENGTH);
 
 	// Output control.
@@ -85,12 +85,18 @@ module TriggerController (
 	// Main FSM logic
 	always @(posedge clk or negedge reset) begin
 		if(~reset) begin
-			state      <= state_load_idle;
-			tx_counter <= 4'd0;
+			state        <= state_load_idle;
+			tx_counter   <= 4'd0;
+			trigger_byte <= 8'b0;
 		end
 		else begin
 			tx_counter <= (tx_counter == FRAME_LENGTH) ? 4'd0 : tx_counter + 4'd1;
 			state      <= next_state;
+			
+			if (state == state_load_trigger)
+				trigger_byte <= 8'h08;
+			else
+				trigger_byte <= 8'b0;
 		end
 	end
 
