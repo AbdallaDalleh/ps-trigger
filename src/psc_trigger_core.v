@@ -15,30 +15,25 @@ module psc_trigger
 	wire [7:0] tx_byte;
 	wire [9:0] encoder_out;
 	wire       trigger_signal;
+    wire       reset_signal;
+    wire       clk_50;
 	wire       clk_10;
 	wire       clk_1;
-	wire       is_trigger;
-	wire       status_byte_done;
 	wire       is_control_byte;
 	wire       is_crc_byte;
 	wire       crc_reset;
-	
-	`ifdef __SIM__
-	
-	ClockDivider #(.FACTOR(1))  div_2   (.clk_in(clk), .clk_out(clk_50));
-	ClockDivider #(.FACTOR(5))  div_10  (.clk_in(clk), .clk_out(clk_10));
-	ClockDivider #(.FACTOR(50)) div_100 (.clk_in(clk), .clk_out(clk_1));
-	
-	`else
 
-	wire clk_50;
-	assign clk_50 = clk;
-	altpll_50_10 pll_0 (.inclk0(clk), .c0(clk_10), .c1(clk_1) );
+    reg        evr_trigger_neg;
+    
+	assign clk_50      = clk;
+    assign trigger_out = evr_trigger;
+    
+	altpll_50_10 pll_0 (
+        .inclk0(clk),
+        .c0(clk_10),
+        .c1(clk_1)
+    );
 
-	`endif
-
-//	assign clk_10_logic = clk_10;	
-	wire reset_signal;
 	psc_logic_clock clock_logic (
 		.clk_in(clk_10),
 		.reset(reset_signal),
@@ -49,15 +44,10 @@ module psc_trigger
 		.signal(reset),
 		.out(reset_signal)
 	);
-	
-	assign trigger_out = evr_trigger;
-	reg evr_trigger_neg;
-	always @(posedge clk_1)
-		evr_trigger_neg <= ~evr_trigger;
 		
 	RisingEdgeDetector detector0 (
 		.clk(clk_1), 
-		.signal(evr_trigger_neg),
+		.signal(~evr_trigger),
 		.out(trigger_signal)
 	);
 

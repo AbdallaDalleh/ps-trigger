@@ -62,7 +62,6 @@ module TriggerController (
     end
 
 	// FSM control signals.
-	// assign trigger_byte     = (state == state_load_trigger) ? 8'h08 : 8'b0;
 	assign tx_done          = (tx_counter == FRAME_LENGTH);
 
 	// Output control.
@@ -70,18 +69,7 @@ module TriggerController (
 	assign is_control_byte  = (tx_counter == 4'h0 || tx_counter == 4'b1001);
 	assign is_crc_byte      = (tx_counter == 4'h8);
 	assign crc_reset        = (tx_counter == 4'h0);
-	
-	// Asynchronous counter to iterate over the status byte.
-//	assign status_byte_done = (status_byte_counter == 8'hff);
-//	always @(posedge clk or posedge trigger_pulse) begin
-//		if (trigger_pulse)
-//			status_byte_counter <= 8'h0;
-//		else begin
-//			if (tx_counter == 4'b0000)
-//				status_byte_counter <= status_byte_counter + 8'h1;
-//		end
-//	end
-	
+
 	// Main FSM logic
 	always @(posedge clk or negedge reset) begin
 		if(~reset) begin
