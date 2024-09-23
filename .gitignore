@@ -17,3 +17,5 @@ greybox_tmp/
 *.jic
 *.smsg
 .qsys_edit/
+!release/*/*.jic
+!release/*/*.sof
